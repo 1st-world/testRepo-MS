@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR 코드 생성기</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+        }
+        input[type="text"] {
+            width: 80%;
+            padding: 10px;
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button {
+            padding: 10px 20px;
+            margin-top: 15px;
+            border: none;
+            border-radius: 5px;
+            background-color: #4CAF50;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #qrcode-container {
+            margin-top: 30px;
+        }
+        #qrcode-img {
+            max-width: 200px;
+            height: auto;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>QR 코드 생성기</h1>
+    <input type="text" id="text-input" placeholder="QR 코드로 만들 텍스트를 입력하세요">
+    <button onclick="generateQRCode()">생성하기</button>
+    
+    <div id="qrcode-container">
+        <img id="qrcode-img" src="" alt="여기에 QR 코드가 나타납니다.">
+    </div>
+</div>
+
+<script>
+    function generateQRCode() {
+        // 입력 필드에서 텍스트 값을 가져옵니다.
+        const text = document.getElementById('text-input').value;
+        const qrcodeImg = document.getElementById('qrcode-img');
+        
+        // 텍스트가 비어있으면 경고 메시지를 표시합니다.
+        if (text === "") {
+            alert("텍스트를 입력해주세요.");
+            qrcodeImg.src = "";
+            qrcodeImg.alt = "여기에 QR 코드가 나타납니다.";
+            return;
+        }
+        
+        // Google Charts API URL을 생성합니다.
+        // `cht=qr`는 QR 코드를 의미합니다.
+        // `chs=200x200`는 이미지 크기를 200x200 픽셀로 설정합니다.
+        // `chl=` 뒤에 인코딩된 텍스트가 들어갑니다.
+        const apiUrl = `https://chart.googleapis.com/chart?cht=qr&chs=200x200&chl=${encodeURIComponent(text)}`;
+        
+        // 이미지의 src 속성을 API URL로 설정하여 QR 코드를 표시합니다.
+        qrcodeImg.src = apiUrl;
+        qrcodeImg.alt = "생성된 QR 코드";
+    }
+</script>
+
+</body>
+</html>
